@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Api", "FinanceApp.Api\FinanceApp.Api.csproj", "{7B139810-7BD9-4891-A36B-65D2BC2CC6FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E79A496F-1276-4150-8B15-48E7B22F9233}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Api", "src\FinanceApp.Api\FinanceApp.Api.csproj", "{123A0269-6CD0-4E9B-BA39-306501E92191}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Domain", "src\FinanceApp.Domain\FinanceApp.Domain.csproj", "{82B570DF-5979-4702-AABD-C61C2829B17F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Application", "src\FinanceApp.Application\FinanceApp.Application.csproj", "{29EB3666-B180-4B13-9D00-3073F554C4CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Infrastructure", "src\FinanceApp.Infrastructure\FinanceApp.Infrastructure.csproj", "{C332CC5F-931D-4464-9D69-20FB7C04E726}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9EB9CC75-81EB-48DD-8F6E-B73780281D53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.UnitTests", "test\FinanceApp.UnitTests\FinanceApp.UnitTests.csproj", "{0486C6C7-3379-4037-9666-39C06C3F999E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B139810-7BD9-4891-A36B-65D2BC2CC6FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B139810-7BD9-4891-A36B-65D2BC2CC6FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B139810-7BD9-4891-A36B-65D2BC2CC6FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B139810-7BD9-4891-A36B-65D2BC2CC6FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{123A0269-6CD0-4E9B-BA39-306501E92191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123A0269-6CD0-4E9B-BA39-306501E92191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{123A0269-6CD0-4E9B-BA39-306501E92191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123A0269-6CD0-4E9B-BA39-306501E92191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82B570DF-5979-4702-AABD-C61C2829B17F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B570DF-5979-4702-AABD-C61C2829B17F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82B570DF-5979-4702-AABD-C61C2829B17F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82B570DF-5979-4702-AABD-C61C2829B17F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29EB3666-B180-4B13-9D00-3073F554C4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29EB3666-B180-4B13-9D00-3073F554C4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29EB3666-B180-4B13-9D00-3073F554C4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29EB3666-B180-4B13-9D00-3073F554C4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{123A0269-6CD0-4E9B-BA39-306501E92191} = {E79A496F-1276-4150-8B15-48E7B22F9233}
+		{82B570DF-5979-4702-AABD-C61C2829B17F} = {E79A496F-1276-4150-8B15-48E7B22F9233}
+		{29EB3666-B180-4B13-9D00-3073F554C4CC} = {E79A496F-1276-4150-8B15-48E7B22F9233}
+		{C332CC5F-931D-4464-9D69-20FB7C04E726} = {E79A496F-1276-4150-8B15-48E7B22F9233}
+		{0486C6C7-3379-4037-9666-39C06C3F999E} = {9EB9CC75-81EB-48DD-8F6E-B73780281D53}
+	EndGlobalSection
+EndGlobal
