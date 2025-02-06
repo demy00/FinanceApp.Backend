@@ -34,6 +34,7 @@ jobs:
           docker buildx build \
             --cache-from=type=gha \
             --cache-to=type=gha,mode=max \
+            --target final \
             -t financeapp:latest .
 
       - name: Save Docker Image as Artifact
