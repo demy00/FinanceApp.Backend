@@ -24,7 +24,7 @@ RUN dotnet build FinanceApp.sln -c Release --no-restore
 # Test stage
 FROM build AS test
 WORKDIR /source
-RUN dotnet test FinanceApp.sln --no-build --verbosity normal
+RUN dotnet test FinanceApp.sln -c Release --no-build --verbosity normal
 
 # Publish Stage
 FROM build AS publish
