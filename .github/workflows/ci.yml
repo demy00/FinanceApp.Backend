@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Tests in Docker Container
         run: |
-          docker run --rm financeapp:latest dotnet test --no-build --verbosity normal
+          docker run --rm financeapp:latest dotnet test --configuration Release --no-build --verbosity normal
            
       - name: Save Docker Image as Artifact
         uses: actions/upload-artifact@v4
