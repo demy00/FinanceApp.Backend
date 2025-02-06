@@ -21,14 +21,9 @@ RUN dotnet nuget locals all --clear && \
 # Build solution
 RUN dotnet build FinanceApp.sln -c Release --no-restore
 
-# Test stage
-#FROM build AS test
-#WORKDIR /source
-#RUN dotnet test FinanceApp.sln -c Release --no-build --verbosity normal
-
 # Publish Stage
 FROM build AS publish
-WORKDIR /source/src/FinanceApp.Api
+WORKDIR /app
 RUN dotnet publish src/FinanceApp.Api/FinanceApp.Api.csproj \
     -a ${TARGETARCH/amd64/x64} \
     --use-current-runtime \

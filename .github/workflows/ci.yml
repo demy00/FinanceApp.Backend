@@ -22,7 +22,7 @@ jobs:
           docker buildx build \
             --cache-from=type=gha \
             --cache-to=type=gha,mode=max \
-            --target final \
+            --target build \
             -t financeapp:latest .
             
       - name: Run Tests in Docker Container
