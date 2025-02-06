@@ -21,6 +21,11 @@ RUN dotnet nuget locals all --clear && \
 # Build solution
 RUN dotnet build FinanceApp.sln -c Release --no-restore
 
+# Test stage
+FROM build AS test
+WORKDIR /source
+RUN dotnet test FinanceApp.sln --no-build --verbosity normal
+
 # Publish Stage
 FROM build AS publish
 WORKDIR /app
@@ -40,6 +45,4 @@ CMD dotnet run --no-launch-profile
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final
 WORKDIR /app
 COPY --from=publish /app .
-
-# Run the application
 ENTRYPOINT ["dotnet", "FinanceApp.Api.dll"]

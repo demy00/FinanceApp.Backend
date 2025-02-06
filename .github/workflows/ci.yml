@@ -19,16 +19,22 @@ jobs:
         
       - name: Build Docker Image
         run: |
-          docker build --target build -t financeapp:latest .
+          docker buildx build --target build \
+            --cache-from/type=gha \
+            --chache-to=type=gha,mode=max \
+            -t financeapp:latest .
 
       - name: Run Tests in Docker Container
         run: |
-          docker run --rm financeapp:latest dotnet test --configuration Release --no-build --verbosity normal
-           
+          docker build --target test -t financeapp-test .
+          docker run --rm financeapp-test
+
       - name: Save Docker Image as Artifact
-        uses: actions/upload-artifact@v4
+        run: |
+          docker save -o /tmp/financeapp.tar financeapp:latest
+      - uses: actions/upload-artifact@v4
         with:
-          name: financeapp-image
+          name: financeapp-image-artifact
           path: /tmp/financeapp.tar
 
   build-and-push:
@@ -43,7 +49,7 @@ jobs:
       - name: Download Cached Docker Image
         uses: actions/download-artifact@v4
         with:
-          name: financeapp-image
+          name: financeapp-image-artifact
           path: /tmp
 
       - name: Load Docker Image
