@@ -29,6 +29,10 @@ jobs:
           docker build --target test -t financeapp-test .
           docker run --rm financeapp-test
           
+      - name: List Project files
+        run: |
+          ls -R
+
       - name: Build Final Docker Image
         run: |
           docker buildx build \
