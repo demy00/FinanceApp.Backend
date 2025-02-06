@@ -17,22 +17,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         
-      - name: Build Docker Image for Testing
-        run: |
-          docker buildx build --target build \
-            --cache-from=type=gha \
-            --cache-to=type=gha,mode=max \
-            -t financeapp:latest .
-
-      - name: Run Tests in Docker Container
-        run: |
-          docker build --target test -t financeapp-test .
-          docker run --rm financeapp-test
-          
-      - name: List Project files
-        run: |
-          ls -R
-
       - name: Build Final Docker Image
         run: |
           docker buildx build \
@@ -40,6 +24,10 @@ jobs:
             --cache-to=type=gha,mode=max \
             --target final \
             -t financeapp:latest .
+            
+      - name: Run Tests in Docker Container
+        run: |
+          docker run --rm financeapp:latest dotnet test --no-build --verbosity normal
 
       - name: Save Docker Image as Artifact
         run: |

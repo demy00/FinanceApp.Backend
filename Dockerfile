@@ -28,7 +28,7 @@ RUN dotnet test FinanceApp.sln -c Release --no-build --verbosity normal
 
 # Publish Stage
 FROM build AS publish
-WORKDIR /app
+WORKDIR /source/src/FinanceApp.Api
 RUN dotnet publish src/FinanceApp.Api/FinanceApp.Api.csproj \
     -a ${TARGETARCH/amd64/x64} \
     --use-current-runtime \
