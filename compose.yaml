@@ -1,0 +1,15 @@
+services:
+  finance-app:
+    build:
+      context: .
+      target: development
+    ports:
+      - 5000:80
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+

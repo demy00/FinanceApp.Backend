@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Infrastructure",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9EB9CC75-81EB-48DD-8F6E-B73780281D53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.UnitTests", "test\FinanceApp.UnitTests\FinanceApp.UnitTests.csproj", "{0486C6C7-3379-4037-9666-39C06C3F999E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Application.Tests", "test\FinanceApp.Application.Tests\FinanceApp.Application.Tests.csproj", "{0486C6C7-3379-4037-9666-39C06C3F999E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
