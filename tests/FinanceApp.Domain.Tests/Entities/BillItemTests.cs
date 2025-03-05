@@ -5,14 +5,21 @@ namespace FinanceApp.Domain.Tests.Entities;
 
 public class BillItemTests
 {
+    private static readonly Guid userId;
+    static BillItemTests() => userId = Guid.NewGuid();
+
     [Fact]
     public void Constructor_ShouldSetDefaultValues()
     {
-        var billItem = new BillItem(Guid.NewGuid(), null, null, null, null);
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        var billItem = new BillItem(null, null, null, null, null, userId);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
         Assert.Equal("", billItem.Name);
         Assert.Equal("", billItem.Description);
         Assert.Equal(new Money(0, ""), billItem.Price);
+        Assert.Equal(DefaultCategories.Other, billItem.Category);
+        Assert.Equal("Other", billItem.Category!.Name);
         Assert.Equal(new Quantity(1), billItem.Quantity);
     }
 
@@ -21,7 +28,7 @@ public class BillItemTests
     [InlineData("Name", "Name")]
     public void Constructor_ShouldSetName(string inputName, string expectedName)
     {
-        var billItem = new BillItem(Guid.NewGuid(), inputName, "Description", new Money(100, "USD"), new Quantity(1));
+        var billItem = new BillItem(inputName, "Description", DefaultCategories.Other, new Money(100, "USD"), new Quantity(1), userId);
         Assert.Equal(expectedName, billItem.Name);
     }
 
@@ -30,21 +37,21 @@ public class BillItemTests
     [InlineData("Description", "Description")]
     public void Constructor_ShouldSetDescription(string inputDescription, string expectedDescription)
     {
-        var billItem = new BillItem(Guid.NewGuid(), "", inputDescription, new Money(100, "USD"), new Quantity(1));
+        var billItem = new BillItem("", inputDescription, DefaultCategories.Other, new Money(100, "USD"), new Quantity(1), userId);
         Assert.Equal(expectedDescription, billItem.Description);
     }
 
     [Fact]
     public void Constructor_ShouldSetPrice()
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(500, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(500, "USD"), new Quantity(1), userId);
         Assert.Equal(new Money(500, "USD"), billItem.Price);
     }
 
     [Fact]
     public void Constructor_ShouldSetQuantity()
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(100, "USD"), new Quantity(5));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(100, "USD"), new Quantity(5), userId);
         Assert.Equal(new Quantity(5), billItem.Quantity);
     }
 
@@ -52,14 +59,14 @@ public class BillItemTests
     public void Constructor_ShouldThrowException_WhenPriceIsNegative()
     {
         Assert.Throws<ArgumentException>(() =>
-            new BillItem(Guid.NewGuid(), "Name", "Description", new Money(-100, "USD"), new Quantity(5)));
+            new BillItem("Name", "Description", DefaultCategories.Other, new Money(-100, "USD"), new Quantity(5), userId));
     }
 
     [Fact]
     public void Constructor_ShouldThrowException_WhenQuantityIsNegative()
     {
         Assert.Throws<ArgumentException>(() =>
-            new BillItem(Guid.NewGuid(), "Name", "Description", new Money(100, "USD"), new Quantity(-5)));
+            new BillItem("Name", "Description", DefaultCategories.Other, new Money(100, "USD"), new Quantity(-5), userId));
     }
 
     [Theory]
@@ -68,7 +75,7 @@ public class BillItemTests
     [InlineData("New")]
     public void UpdateName_ShouldUpdateName(string name)
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(10, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
 
         billItem.UpdateName(name);
 
@@ -78,9 +85,11 @@ public class BillItemTests
     [Fact]
     public void UpdateName_ShouldUpdateName_WhenNameIsNull()
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(10, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         billItem.UpdateName(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
         Assert.Equal("", billItem.Name);
     }
@@ -91,7 +100,7 @@ public class BillItemTests
     [InlineData("New")]
     public void UpdateDescription_ShouldUpdateDescription(string description)
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(10, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
 
         billItem.UpdateDescription(description);
 
@@ -101,9 +110,11 @@ public class BillItemTests
     [Fact]
     public void UpdateDescription_ShouldUpdateDescription_WhenDescriptionIsNull()
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(10, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         billItem.UpdateDescription(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
         Assert.Equal("", billItem.Description);
     }
@@ -111,46 +122,65 @@ public class BillItemTests
     [Fact]
     public void UpdatePrice_ShouldThrowException_WhenPriceIsNull()
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(10, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         Assert.Throws<ArgumentNullException>(() => billItem.UpdatePrice(null));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+    }
+
+    [Fact]
+    public void UpdatePrice_ShouldUpdatePrice()
+    {
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
+        var newPrice = new Money(20, "USD");
+        billItem.UpdatePrice(newPrice);
+        Assert.Equal(newPrice, billItem.Price);
     }
 
     [Fact]
     public void UpdateQuantity_ShouldThrowException_WhenQuantityIsNull()
     {
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(10, "USD"), new Quantity(1));
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         Assert.Throws<ArgumentNullException>(() => billItem.UpdateQuantity(null));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
     }
 
     [Fact]
-    public void TotalPrice_ShouldCalculateCorrectly()
+    public void UpdateQuantity_ShouldUpdateQuantity()
     {
-        var price = new Money(15.00m, "USD");
-        var quantity = new Quantity(3);
-        var billItem = new BillItem(Guid.NewGuid(), "Name", "Description", price, quantity);
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
+        var newQuantity = new Quantity(3);
+        billItem.UpdateQuantity(newQuantity);
+        Assert.Equal(newQuantity, billItem.Quantity);
+    }
 
-        var expectedTotal = new Money(15.00m * 3, "USD");
-
-        Assert.Equal(expectedTotal, billItem.TotalPrice);
+    [Theory]
+    [InlineData("Food")]
+    [InlineData("Travel")]
+    public void UpdateCategory_ShouldUpdateCategory(string newCategoryName)
+    {
+        var billItem = new BillItem("Name", "Description", DefaultCategories.Other, new Money(10, "USD"), new Quantity(1), userId);
+        var newCategory = new Category(newCategoryName, "", userId);
+        billItem.UpdateCategory(newCategory);
+        Assert.Equal(newCategory, billItem.Category);
     }
 
     [Fact]
-    public void BillItem_ShouldBeEqual_WhenIdIsSame()
+    public void UpdateCategory_ShouldDefaultToOther_WhenNull()
     {
-        var id = Guid.NewGuid();
-        var item1 = new BillItem(id, "Name", "Description", new Money(1, "USD"), new Quantity(1));
-        var item2 = new BillItem(id, "Name", "Description", new Money(1, "USD"), new Quantity(1));
-
-        Assert.Equal(item1, item2);
+        var billItem = new BillItem("Name", "Description", new Category("Custom", "", userId), new Money(10, "USD"), new Quantity(1), userId);
+        billItem.UpdateCategory(null);
+        Assert.Equal(DefaultCategories.Other, billItem.Category);
     }
 
     [Fact]
     public void BillItem_ShouldNotBeEqual_WhenIdIsDifferent()
     {
-        var item1 = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(1, "USD"), new Quantity(1));
-        var item2 = new BillItem(Guid.NewGuid(), "Name", "Description", new Money(1, "USD"), new Quantity(1));
+        var item1 = new BillItem("Name", "Description", DefaultCategories.Other, new Money(1, "USD"), new Quantity(1), userId);
+        var item2 = new BillItem("Name", "Description", DefaultCategories.Other, new Money(1, "USD"), new Quantity(1), userId);
 
         Assert.NotEqual(item1, item2);
     }

@@ -12,16 +12,21 @@ public class Period : BaseEntity
 
     private readonly List<Bill> _bills = new();
     public IReadOnlyCollection<Bill> Bills => _bills.AsReadOnly();
+    public Guid UserId { get; init; }
 
-    public Period(Guid id, string name, string description, DateTime startDate, DateTime endDate)
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    private Period() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
+    public Period(string name, string description, DateTime startDate, DateTime endDate, Guid userId)
     {
         if (startDate > endDate) throw new ArgumentException("StartDate must be before or equal to EndDate.");
 
-        Id = id;
         Name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
         Description = description ?? string.Empty;
         StartDate = startDate;
         EndDate = endDate;
+        UserId = userId;
     }
 
     public void AddBill(Bill bill)

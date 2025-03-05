@@ -2,9 +2,19 @@
 
 public abstract class BaseEntity : IEquatable<BaseEntity>
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public Guid Id { get; protected set; }
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    protected BaseEntity()
+    {
+        Id = Guid.NewGuid();
+    }
+
+    protected BaseEntity(Guid id)
+    {
+        Id = id;
+    }
 
     public bool Equals(BaseEntity? other)
     {

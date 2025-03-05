@@ -10,12 +10,17 @@ public class Bill : BaseEntity
 
     private readonly List<BillItem> _items = new();
     public IReadOnlyCollection<BillItem> Items => _items.AsReadOnly();
+    public Guid UserId { get; init; }
 
-    public Bill(Guid id, string name, string description)
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    private Bill() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
+    public Bill(string name, string description, Guid userId)
     {
-        Id = id;
         Name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
         Description = description ?? string.Empty;
+        UserId = userId;
     }
 
     public void AddItem(BillItem item)
@@ -48,8 +53,8 @@ public class Bill : BaseEntity
     {
         if (_items.Count == 0) return new Money(0, "");
 
-        decimal amount = _items.Sum(i => i.TotalPrice.Amount);
-        string currency = _items.First().TotalPrice.Currency;
+        decimal amount = _items.Sum(i => i.Price.Amount * i.Quantity.Value);
+        string currency = _items.First().Price.Currency;
 
         return new Money(amount, currency);
     }
