@@ -7,7 +7,9 @@
         public bool IsDeleted { get; private set; }
         public Guid? UserId { get; init; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         private Category() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
         public Category(string name, string description, Guid? userId)
         {
