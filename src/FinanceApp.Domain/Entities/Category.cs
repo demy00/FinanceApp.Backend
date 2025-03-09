@@ -2,8 +2,9 @@
 {
     public class Category : BaseEntity
     {
-        public string? Name { get; private set; }
+        public string Name { get; private set; }
         public string? Description { get; private set; }
+        public bool IsDeleted { get; private set; }
         public Guid? UserId { get; init; }
 
         private Category() { }
@@ -28,5 +29,30 @@
             UserId = userId;
         }
 
+        public void Rename(string newName)
+        {
+            if (UserId == null)
+                throw new InvalidOperationException("Predefined categories cannot be renamed.");
+
+            Name = string.IsNullOrWhiteSpace(newName)
+                ? throw new ArgumentException("Category name cannot be empty.", nameof(newName))
+                : newName;
+        }
+
+        public void UpdateDescription(string? newDescription)
+        {
+            if (UserId == null)
+                throw new InvalidOperationException("Predefined categories cannot be modified.");
+
+            Description = newDescription;
+        }
+
+        public void Delete()
+        {
+            if (UserId == null)
+                throw new InvalidOperationException("Predefined categories cannot be deleted.");
+
+            IsDeleted = true;
+        }
     }
 }
