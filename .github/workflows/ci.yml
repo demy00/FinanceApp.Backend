@@ -20,6 +20,11 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build --target build -t financeapp:latest .
+
+      - name: Debug Testcontainers
+        run: |
+          docker ps -a
+          docker logs $(docker ps -q --filter "name=postgres") || echo "No PostgreSQL container found"
             
       - name: Run Tests in Docker Container
         run: |
