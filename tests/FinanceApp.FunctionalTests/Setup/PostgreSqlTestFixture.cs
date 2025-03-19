@@ -40,7 +40,7 @@ public class PostgreSqlTestFixture : IAsyncLifetime
             await _postgreSqlContainer.StartAsync();
             _logger.LogInformation("Testcontainer started. ConnectionString: {0}", _postgreSqlContainer.GetConnectionString());
 
-            Environment.SetEnvironmentVariable("TESTCONTAINERS_CONNECTION_STRING", _postgreSqlContainer.GetConnectionString());
+            Environment.SetEnvironmentVariable("CONNECTION_STRING", _postgreSqlContainer.GetConnectionString());
 
             _options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseNpgsql(_postgreSqlContainer.GetConnectionString())
