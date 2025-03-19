@@ -48,6 +48,8 @@ namespace FinanceApp.Infrastructure.Migrations
 
                     b.HasIndex("PeriodId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Bills");
                 });
 
@@ -59,7 +61,7 @@ namespace FinanceApp.Infrastructure.Migrations
                     b.Property<Guid?>("BillId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
@@ -82,6 +84,8 @@ namespace FinanceApp.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("BillItems");
                 });
 
@@ -91,10 +95,8 @@ namespace FinanceApp.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -108,7 +110,9 @@ namespace FinanceApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Period", b =>
@@ -137,6 +141,8 @@ namespace FinanceApp.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Periods");
                 });
@@ -386,12 +392,14 @@ namespace FinanceApp.Infrastructure.Migrations
             modelBuilder.Entity("FinanceApp.Domain.Entities.BillItem", b =>
                 {
                     b.HasOne("FinanceApp.Domain.Entities.Bill", null)
-                        .WithMany("Items")
+                        .WithMany("BillItems")
                         .HasForeignKey("BillId");
 
                     b.HasOne("FinanceApp.Domain.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("FinanceApp.Domain.ValueObjects.Money", "Price", b1 =>
                         {
@@ -505,7 +513,7 @@ namespace FinanceApp.Infrastructure.Migrations
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Bill", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("BillItems");
                 });
 
             modelBuilder.Entity("FinanceApp.Domain.Entities.Period", b =>

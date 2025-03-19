@@ -3,58 +3,64 @@
     public class Category : BaseEntity
     {
         public string Name { get; private set; }
-        public string? Description { get; private set; }
-        public bool IsDeleted { get; private set; }
+        public string Description { get; private set; }
         public Guid? UserId { get; init; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS8618 // Required for EF Core
         private Category() { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS8618 
 
         public Category(string name, string description, Guid? userId)
+            : base()
         {
-            Name = string.IsNullOrWhiteSpace(name)
-                ? throw new ArgumentException("Category name is required.", nameof(name))
-                : name;
-            Description = description;
+            ValidateName(name);
+            Name = name;
+            Description = description ?? string.Empty;
             UserId = userId;
         }
 
-        // Overloaded constructor for default/seed categories with a specific Id.
+        // Constructor for seed categories with a specified Id.
         public Category(Guid id, string name, string description, Guid? userId)
             : base(id)
         {
-            Name = string.IsNullOrWhiteSpace(name)
-                ? throw new ArgumentException("Category name is required.", nameof(name))
-                : name;
-            Description = description;
+            ValidateName(name);
+            Name = name;
+            Description = description ?? string.Empty;
             UserId = userId;
+        }
+
+        public void Update(string name, string description)
+        {
+            Rename(name);
+            UpdateDescription(description);
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public void Rename(string newName)
         {
-            if (UserId == null)
-                throw new InvalidOperationException("Predefined categories cannot be renamed.");
-
-            Name = string.IsNullOrWhiteSpace(newName)
-                ? throw new ArgumentException("Category name cannot be empty.", nameof(newName))
-                : newName;
+            ValidateName(newName);
+            ValidatePredefined();
+            Name = newName;
+            UpdatedAt = DateTime.UtcNow;
         }
 
-        public void UpdateDescription(string? newDescription)
+        public void UpdateDescription(string newDescription)
+        {
+            ValidatePredefined();
+            Description = newDescription ?? string.Empty;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        private static void ValidateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Category name is required.", nameof(name));
+        }
+
+        private void ValidatePredefined()
         {
             if (UserId == null)
                 throw new InvalidOperationException("Predefined categories cannot be modified.");
-
-            Description = newDescription;
-        }
-
-        public void Delete()
-        {
-            if (UserId == null)
-                throw new InvalidOperationException("Predefined categories cannot be deleted.");
-
-            IsDeleted = true;
         }
     }
 }

@@ -4,7 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!--<UserSecretsId>c6c1c83d-8d63-472f-81b2-5c0c0dcca17c</UserSecretsId>-->
+  </PropertyGroup>
+
+  <PropertyGroup>
+  	<PreserveCompilationContext>true</PreserveCompilationContext>
+  	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>

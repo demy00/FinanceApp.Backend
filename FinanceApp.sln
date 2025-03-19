@@ -15,13 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Infrastructure",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9EB9CC75-81EB-48DD-8F6E-B73780281D53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Application.Tests", "tests\FinanceApp.Application.Tests\FinanceApp.Application.Tests.csproj", "{0486C6C7-3379-4037-9666-39C06C3F999E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.UnitTests", "tests\FinanceApp.UnitTests\FinanceApp.UnitTests.csproj", "{EC1D6DE4-BC35-4C14-B2BF-277E7BF51249}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Domain.Tests", "tests\FinanceApp.Domain.Tests\FinanceApp.Domain.Tests.csproj", "{EC1D6DE4-BC35-4C14-B2BF-277E7BF51249}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.IntegrationTests", "tests\FinanceApp.IntegrationTests\FinanceApp.IntegrationTests.csproj", "{2451AE67-D4EE-49E6-B78E-9FB132F658FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Infrastructure.Tests", "tests\FinanceApp.Infrastructure.Tests\FinanceApp.Infrastructure.Tests.csproj", "{2451AE67-D4EE-49E6-B78E-9FB132F658FF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Api.Tests", "tests\FinanceApp.Api.Tests\FinanceApp.Api.Tests.csproj", "{E0A0C170-95BB-4A34-8844-85616400B279}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.FunctionalTests", "tests\FinanceApp.FunctionalTests\FinanceApp.FunctionalTests.csproj", "{E0A0C170-95BB-4A34-8844-85616400B279}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,18 +79,6 @@ Global
 		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Release|x64.Build.0 = Release|Any CPU
 		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Release|x86.ActiveCfg = Release|Any CPU
 		{C332CC5F-931D-4464-9D69-20FB7C04E726}.Release|x86.Build.0 = Release|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|x64.Build.0 = Debug|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Debug|x86.Build.0 = Debug|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|x64.ActiveCfg = Release|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|x64.Build.0 = Release|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|x86.ActiveCfg = Release|Any CPU
-		{0486C6C7-3379-4037-9666-39C06C3F999E}.Release|x86.Build.0 = Release|Any CPU
 		{EC1D6DE4-BC35-4C14-B2BF-277E7BF51249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC1D6DE4-BC35-4C14-B2BF-277E7BF51249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC1D6DE4-BC35-4C14-B2BF-277E7BF51249}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -138,9 +124,11 @@ Global
 		{82B570DF-5979-4702-AABD-C61C2829B17F} = {E79A496F-1276-4150-8B15-48E7B22F9233}
 		{29EB3666-B180-4B13-9D00-3073F554C4CC} = {E79A496F-1276-4150-8B15-48E7B22F9233}
 		{C332CC5F-931D-4464-9D69-20FB7C04E726} = {E79A496F-1276-4150-8B15-48E7B22F9233}
-		{0486C6C7-3379-4037-9666-39C06C3F999E} = {9EB9CC75-81EB-48DD-8F6E-B73780281D53}
 		{EC1D6DE4-BC35-4C14-B2BF-277E7BF51249} = {9EB9CC75-81EB-48DD-8F6E-B73780281D53}
 		{2451AE67-D4EE-49E6-B78E-9FB132F658FF} = {9EB9CC75-81EB-48DD-8F6E-B73780281D53}
 		{E0A0C170-95BB-4A34-8844-85616400B279} = {9EB9CC75-81EB-48DD-8F6E-B73780281D53}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D57DB39D-CB18-4D64-8C17-493C03FBF583}
 	EndGlobalSection
 EndGlobal
