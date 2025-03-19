@@ -21,10 +21,12 @@ jobs:
         run: |
           docker build --target build -t financeapp:latest .
 
-      - name: Debug Testcontainers
+      - name: Run EF Migration
         run: |
-          docker ps -a
-          docker logs $(docker ps -q --filter "name=postgres") || echo "No PostgreSQL container found"
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -e DOCKER_HOST=unix:///var/run/docker.sock \
+            financeapp:latest dotnet ef update --no-build
             
       - name: Run Tests in Docker Container
         run: |
