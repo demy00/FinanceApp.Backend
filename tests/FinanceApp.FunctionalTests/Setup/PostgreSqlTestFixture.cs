@@ -27,7 +27,7 @@ public class PostgreSqlTestFixture : IAsyncLifetime
 
         _postgreSqlContainer = new PostgreSqlBuilder()
             .WithDatabase(postgresConfiguration.Database)
-            .WithImage("postgres:15-alpine")
+            .WithImage("postgres:16-alpine")
             .WithCleanUp(true)
             .Build();
     }
