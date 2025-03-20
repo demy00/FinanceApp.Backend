@@ -50,7 +50,6 @@ public class PostgreSqlTestFixture : IAsyncLifetime
 
             await Context.Database.EnsureDeletedAsync();
             await Context.Database.EnsureCreatedAsync();
-            await Context.Database.MigrateAsync();
             _logger.LogInformation("Database schema created.");
         }
         catch (Exception ex)
@@ -58,16 +57,6 @@ public class PostgreSqlTestFixture : IAsyncLifetime
             _logger.LogError(ex, $"Error during {InitializeAsync}");
             throw;
         }
-    }
-
-    /// <summary>
-    /// Optional helper to create a new DbContext instance for test isolation.
-    /// </summary>
-    public ApplicationDbContext CreateContext()
-    {
-        if (_options == null)
-            throw new InvalidOperationException("DbContext options are not configured. Ensure InitializeAsync() has been called.");
-        return new ApplicationDbContext(_options);
     }
 
     public async Task ResetDatabaseAsync()
