@@ -24,8 +24,10 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
             // Register the ApplicationDbContext with the test PostgreSQL connection string
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                var testConnectionString = "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres";
-                options.UseNpgsql(testConnectionString);
+                var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
+                    ?? "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres";
+
+                options.UseNpgsql(connectionString);
             });
 
             // Build the service provider and ensure the database is created
