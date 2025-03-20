@@ -13,7 +13,6 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
     {
         builder.ConfigureServices(services =>
         {
-            // Remove the existing ApplicationDbContext registration
             var descriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
             if (descriptor != null)
@@ -21,7 +20,6 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                 services.Remove(descriptor);
             }
 
-            // Register the ApplicationDbContext with the test PostgreSQL connection string
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
@@ -30,19 +28,12 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                 options.UseNpgsql(connectionString);
             });
 
-            // Build the service provider and ensure the database is created
             var sp = services.BuildServiceProvider();
-            using (var scope = sp.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                db.Database.EnsureCreated();
-            }
         });
     }
 
     protected override void Dispose(bool disposing)
     {
-        // Clean up the test database before disposal.
         using (var scope = Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
