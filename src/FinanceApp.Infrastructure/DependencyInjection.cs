@@ -21,7 +21,7 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString));
 
         // Identity
-        services.AddIdentityCore<ApplicationUser>()
+        services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
