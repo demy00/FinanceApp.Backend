@@ -48,7 +48,9 @@ public class PostgreSqlTestFixture : IAsyncLifetime
 
             Context = new ApplicationDbContext(_options);
 
+            await Context.Database.EnsureDeletedAsync();
             await Context.Database.EnsureCreatedAsync();
+            await Context.Database.MigrateAsync();
             _logger.LogInformation("Database schema created.");
         }
         catch (Exception ex)
