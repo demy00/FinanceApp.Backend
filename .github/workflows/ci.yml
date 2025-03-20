@@ -20,14 +20,6 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build --target build -t financeapp:latest .
-
-      - name: Run EF Migration
-        run: |
-          docker run --rm \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -e DOCKER_HOST=unix:///var/run/docker.sock \
-            -e PATH="/root/.dotnet/tools:$PATH" \ 
-            financeapp:latest dotnet ef update --no-build
             
       - name: Run Tests in Docker Container
         run: |
