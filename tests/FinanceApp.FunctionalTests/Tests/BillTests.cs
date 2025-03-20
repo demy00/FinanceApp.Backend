@@ -9,7 +9,6 @@ namespace FinanceApp.FunctionalTests.Tests;
 
 public class BillTests : TestBase
 {
-
     public BillTests(PostgreSqlTestFixture fixture, WebApplicationFactory<Program> factory)
         : base(fixture, factory) { }
 

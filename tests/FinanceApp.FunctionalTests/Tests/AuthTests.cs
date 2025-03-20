@@ -6,21 +6,10 @@ using System.Net.Http.Json;
 
 namespace FinanceApp.FunctionalTests.Tests;
 
-[Collection("Auth Tests Collection")]
-public class AuthTests : IAsyncLifetime
+public class AuthTests : TestBase
 {
-    protected readonly PostgreSqlTestFixture Fixture;
-    private readonly HttpClient Client;
-
-    public AuthTests(PostgreSqlTestFixture fixture)
-    {
-        Fixture = fixture;
-        Client = new WebApplicationFactory<Program>().CreateClient();
-    }
-
-    public Task InitializeAsync() => Task.CompletedTask;
-
-    public Task DisposeAsync() => Task.CompletedTask;
+    public AuthTests(PostgreSqlTestFixture fixture, WebApplicationFactory<Program> factory)
+        : base(fixture, factory) { }
 
     [Fact]
     public async Task Register_Should_Return_Success_Message()
