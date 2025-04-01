@@ -1,7 +1,6 @@
 ﻿using FinanceApp.Application.DTOs;
 using FinanceApp.Application.Helpers;
 using FinanceApp.FunctionalTests.Setup;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -9,7 +8,7 @@ namespace FinanceApp.FunctionalTests.Tests;
 
 public class BillTests : TestBase
 {
-    public BillTests(PostgreSqlTestFixture fixture, WebApplicationFactory<Program> factory)
+    public BillTests(PostgreSqlTestFixture fixture, CustomWebApplicationFactory<Program> factory)
         : base(fixture, factory) { }
 
     [Fact]

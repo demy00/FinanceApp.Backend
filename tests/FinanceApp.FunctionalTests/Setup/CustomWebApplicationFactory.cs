@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FinanceApp.FunctionalTests.Setup;
@@ -13,32 +14,44 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
     {
         builder.ConfigureServices(services =>
         {
-            var descriptor = services.SingleOrDefault(
+            var context = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-            if (descriptor != null)
+
+            if (context != null)
             {
-                services.Remove(descriptor);
+                services.Remove(context);
+
+                var options = services
+                    .Where(
+                        r => r.ServiceType == typeof(DbContextOptions) ||
+                        (r.ServiceType.IsGenericType &&
+                        r.ServiceType.GetGenericTypeDefinition() == typeof(DbContextOptions<>)))
+                    .ToArray();
+
+                foreach (var option in options)
+                {
+                    services.Remove(option);
+                }
+            }
+
+            var optionsConfig = services
+                .Where(
+                    r => r.ServiceType.IsGenericType &&
+                    r.ServiceType.GetGenericTypeDefinition() == typeof(IDbContextOptionsConfiguration<>))
+                .ToArray();
+
+            foreach (var option in optionsConfig)
+            {
+                services.Remove(option);
             }
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
-                    ?? "Host=localhost;Port=5432;Database=testdb;Username=postgres;Password=postgres";
+                var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
                 options.UseNpgsql(connectionString);
             });
 
-            var sp = services.BuildServiceProvider();
         });
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        using (var scope = Services.CreateScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            db.Database.EnsureDeleted();
-        }
-        base.Dispose(disposing);
     }
 }

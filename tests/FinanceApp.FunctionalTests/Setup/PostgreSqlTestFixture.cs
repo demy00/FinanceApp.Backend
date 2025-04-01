@@ -82,6 +82,7 @@ public class PostgreSqlTestFixture : IAsyncLifetime
             _logger.LogInformation("Stopping and disposing PostgreSQL Testcontainer asynchronously...");
             await _postgreSqlContainer.StopAsync();
             await _postgreSqlContainer.DisposeAsync();
+            Context?.Dispose();
         }
         catch (Exception ex)
         {

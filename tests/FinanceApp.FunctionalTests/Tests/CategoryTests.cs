@@ -1,7 +1,6 @@
 ﻿using FinanceApp.Application.DTOs;
 using FinanceApp.Application.Helpers;
 using FinanceApp.FunctionalTests.Setup;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -10,7 +9,8 @@ namespace FinanceApp.FunctionalTests.Tests;
 public class CategoryTests : TestBase
 {
     private const string CategoriesBaseEndpoint = "/api/categories";
-    public CategoryTests(PostgreSqlTestFixture fixture, WebApplicationFactory<Program> factory) : base(fixture, factory)
+    public CategoryTests(PostgreSqlTestFixture fixture, CustomWebApplicationFactory<Program> factory)
+        : base(fixture, factory)
     {
     }
 

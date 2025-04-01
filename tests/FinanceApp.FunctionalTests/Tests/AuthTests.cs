@@ -1,15 +1,28 @@
 ﻿using FinanceApp.Application.DTOs.Auth;
 using FinanceApp.FunctionalTests.Helpers;
 using FinanceApp.FunctionalTests.Setup;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
 namespace FinanceApp.FunctionalTests.Tests;
 
-public class AuthTests : TestBase
+[Collection("Auth Collection")]
+public class AuthTests : IAsyncLifetime, IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    public AuthTests(PostgreSqlTestFixture fixture, WebApplicationFactory<Program> factory)
-        : base(fixture, factory) { }
+    private readonly PostgreSqlTestFixture _fixture;
+    private readonly HttpClient _client;
+
+    public AuthTests(PostgreSqlTestFixture fixture, CustomWebApplicationFactory<Program> factory)
+    {
+        _fixture = fixture;
+        _client = factory.CreateClient();
+    }
+
+    public async Task InitializeAsync()
+    {
+        await _fixture.ResetDatabaseAsync();
+    }
+
+    public Task DisposeAsync() => Task.CompletedTask;
 
     [Fact]
     public async Task Register_Should_Return_Success_Message()
@@ -19,7 +32,7 @@ public class AuthTests : TestBase
         var registerRequest = new RegisterRequest(userHelper.UserName, userHelper.Email, userHelper.Password, userHelper.FullName);
 
         // Act
-        var response = await Client.PostAsJsonAsync("/api/auth/register", registerRequest);
+        var response = await _client.PostAsJsonAsync("/api/auth/register", registerRequest);
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -33,12 +46,12 @@ public class AuthTests : TestBase
         // Arrange
         var userHelper = new UserHelper();
         var registerRequest = new RegisterRequest(userHelper.UserName, userHelper.Email, userHelper.Password, userHelper.FullName);
-        var registerResponse = await Client.PostAsJsonAsync("/api/auth/register", registerRequest);
+        var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerRequest);
         registerResponse.EnsureSuccessStatusCode();
 
         // Act
         var loginRequest = new LoginRequest(userHelper.UserName, userHelper.Password);
-        var loginResponse = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
 
         // Assert
         loginResponse.EnsureSuccessStatusCode();
@@ -54,18 +67,18 @@ public class AuthTests : TestBase
         // Arrange
         var userHelper = new UserHelper();
         var registerRequest = new RegisterRequest(userHelper.UserName, userHelper.Email, userHelper.Password, userHelper.FullName);
-        var registerResponse = await Client.PostAsJsonAsync("/api/auth/register", registerRequest);
+        var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerRequest);
         registerResponse.EnsureSuccessStatusCode();
 
         var loginRequest = new LoginRequest(userHelper.UserName, userHelper.Password);
-        var loginResponse = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
         loginResponse.EnsureSuccessStatusCode();
         var loginResult = await loginResponse.Content.ReadFromJsonAsync<LoginResponse>();
 
         var logoutRequest = new LogoutRequest(loginResult?.RefreshToken!);
 
         // Act
-        var logoutResponse = await Client.PostAsJsonAsync("/api/auth/logout", logoutRequest);
+        var logoutResponse = await _client.PostAsJsonAsync("/api/auth/logout", logoutRequest);
 
         // Assert
         logoutResponse.EnsureSuccessStatusCode();
@@ -80,18 +93,18 @@ public class AuthTests : TestBase
         // Arrange
         var userHelper = new UserHelper();
         var registerRequest = new RegisterRequest(userHelper.UserName, userHelper.Email, userHelper.Password, userHelper.FullName);
-        var registerResponse = await Client.PostAsJsonAsync("/api/auth/register", registerRequest);
+        var registerResponse = await _client.PostAsJsonAsync("/api/auth/register", registerRequest);
         registerResponse.EnsureSuccessStatusCode();
 
         var loginRequest = new LoginRequest(userHelper.UserName, userHelper.Password);
-        var loginResponse = await Client.PostAsJsonAsync("/api/auth/login", loginRequest);
+        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);
         loginResponse.EnsureSuccessStatusCode();
 
         var loginResult = await loginResponse.Content.ReadFromJsonAsync<LoginResponse>();
         var refreshRequest = new RefreshRequest(loginResult?.RefreshToken!);
 
         // Act
-        var refreshResponse = await Client.PostAsJsonAsync("/api/auth/refresh", refreshRequest);
+        var refreshResponse = await _client.PostAsJsonAsync("/api/auth/refresh", refreshRequest);
 
         // Assert
         refreshResponse.EnsureSuccessStatusCode();

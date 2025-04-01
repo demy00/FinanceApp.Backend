@@ -1,7 +1,6 @@
 ﻿using FinanceApp.Application.DTOs.Auth;
 using FinanceApp.FunctionalTests.Helpers;
 using FinanceApp.FunctionalTests.Setup;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -9,12 +8,12 @@ using System.Net.Http.Json;
 namespace FinanceApp.FunctionalTests;
 
 [Collection("Sequential Tests Collection")]
-public abstract class TestBase : IAsyncLifetime, IClassFixture<WebApplicationFactory<Program>>
+public abstract class TestBase : IAsyncLifetime, IClassFixture<CustomWebApplicationFactory<Program>>
 {
     protected readonly PostgreSqlTestFixture Fixture;
     protected readonly HttpClient Client;
 
-    public TestBase(PostgreSqlTestFixture fixture, WebApplicationFactory<Program> factory)
+    public TestBase(PostgreSqlTestFixture fixture, CustomWebApplicationFactory<Program> factory)
     {
         Fixture = fixture;
         Client = factory.CreateClient();
