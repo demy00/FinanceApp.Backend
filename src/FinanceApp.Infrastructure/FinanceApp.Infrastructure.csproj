@@ -1,13 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\FinanceApp.Application\FinanceApp.Application.csproj" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.2" />
+	  
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.2" />
+	  <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.1" />
+	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\FinanceApp.Application\FinanceApp.Application.csproj" />
+  </ItemGroup>
 
 </Project>

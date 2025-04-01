@@ -23,7 +23,11 @@ jobs:
             
       - name: Run Tests in Docker Container
         run: |
-          docker run --rm financeapp:latest dotnet test --configuration Release --no-build --verbosity normal
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -e DOCKER_HOST=unix:///var/run/docker.sock \
+            -e ASPNETCORE_ENVIRONMENT=Testing \
+            financeapp:latest dotnet test --configuration Release --no-build --verbosity normal
 
       - name: Save Docker Image as Artifact
         run: |
